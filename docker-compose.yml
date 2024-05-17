@@ -1,0 +1,10 @@
+version: '3'
+services:
+  economic-app:
+    container_name: economic-app
+    build: 
+      context: .
+    volumes:
+      - ./data:/app/data
+    ports:
+      - ${APP_PORT}:7880
