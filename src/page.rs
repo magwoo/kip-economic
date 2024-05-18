@@ -1,5 +1,5 @@
 use axum::extract::State;
-use axum::http::StatusCode;
+use axum::http::{HeaderMap, StatusCode};
 use axum::response::{Html, IntoResponse};
 use axum::routing::get;
 use axum::Router;
@@ -40,7 +40,25 @@ async fn root_page() -> impl IntoResponse {
     Html(content.render())
 }
 
-async fn employees(State(db): State<Database>) -> Result<impl IntoResponse, StatusCode> {
+async fn employees(
+    headers: HeaderMap,
+    State(db): State<Database>,
+) -> Result<impl IntoResponse, StatusCode> {
+    let checksum = db
+        .checksum()
+        .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?
+        .to_string();
+
+    if let Some(etag) = headers.get("if-none-match") {
+        let etag = etag.to_str().map_err(|_| StatusCode::BAD_REQUEST)?;
+
+        if etag == checksum {
+            return Err(StatusCode::NOT_MODIFIED);
+        }
+    }
+
+    let headers = [("etag", checksum)];
+
     let employees = db
         .get_all()
         .map_err(|_| StatusCode::INTERNAL_SERVER_ERROR)?;
@@ -50,7 +68,7 @@ async fn employees(State(db): State<Database>) -> Result<impl IntoResponse, Stat
         class: "flex flex-col gap-3",
         hx_get: "/employees",
         hx_swap: "outerHTML",
-        hx_trigger: "EmployeesRefresh from:body, every 3s",
+        hx_trigger: "EmployeesRefresh from:body, load delay:3s",
 
         for (id, employee) in employees {
             HistoryCard {
@@ -63,7 +81,7 @@ async fn employees(State(db): State<Database>) -> Result<impl IntoResponse, Stat
         }
     });
 
-    Ok(Html(content.render()))
+    Ok((headers, Html(content.render())))
 }
 
 async fn employee_form() -> impl IntoResponse {

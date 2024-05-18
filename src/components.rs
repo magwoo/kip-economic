@@ -188,7 +188,7 @@ pub fn HistoryCard(name: String, id: u32, salary: u32, bonus: u32, mult: f64) ->
             }
             button {
                 id: "{delete_id}",
-                class: "h-0 text-stone-400 hover:text-red-500 transition-colors",
+                class: "h-0 text-stone-400 hover:text-red-500",
                 
                 Icon { "delete" }
             }
