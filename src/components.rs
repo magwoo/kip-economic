@@ -108,15 +108,15 @@ pub fn EmployeeForm() -> Element {
 
 #[component]
 pub fn MainBlock(left: Element, right: Element) -> Element {
-    const DIV_TW: &str = "flex justify-between flex-col xl:flex-row gap-3 mx-auto
-        xl:mt-[20vh] bg-stone-100 w-[95vw] mt-[2.5vw] xl:w-[54rem]
-        xl:h-96 rounded-xl shadow p-3";
+    const DIV_TW: &str = "flex justify-between flex-col lg:flex-row gap-3 mx-auto
+        lg:mt-[20vh] bg-stone-100 w-[95vw] mt-[2.5vw] lg:w-[54rem]
+        lg:h-96 rounded-xl shadow p-3";
     
     rsx!(div {
         class: "{DIV_TW}",
 
         left
-        div { class: "bg-stone-300/25 h-1 w-full xl:w-2 xl:h-full rounded-full" }
+        div { class: "bg-stone-300/25 h-1 w-full lg:w-2 lg:h-full rounded-full" }
         right
     })
 }

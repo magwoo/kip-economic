@@ -24,7 +24,7 @@ async fn root_page() -> impl IntoResponse {
             right: right_block()
         }
         div {
-            class: "flex w-[80vw] gap-1 mx-auto xl:w-[48rem] text-stone-400 my-2 justify-center xl:justify-end",
+            class: "flex w-[80vw] gap-1 mx-auto lg:w-[48rem] text-stone-400 my-2 justify-center lg:justify-end",
 
             span { "Выполнил" }
             a {
@@ -71,7 +71,7 @@ async fn employee_form() -> impl IntoResponse {
 }
 
 fn left_block() -> Element {
-    const BUTTON_TW: &str = "px-3 py-2 xl:py-1 text-lg xl:text-base rounded-md text-stone-100 transition-colors w-full xl:w-min";
+    const BUTTON_TW: &str = "px-3 py-2 lg:py-1 text-lg lg:text-base rounded-md text-stone-100 transition-colors w-full lg:w-min";
     let form = form();
 
     rsx!(InnerBlock {
@@ -80,11 +80,11 @@ fn left_block() -> Element {
 
         form
         div {
-            class: "flex justify-end items-center gap-3 mt-3 xl:mt-0",
+            class: "flex justify-end items-center gap-3 mt-3 lg:mt-0",
 
             Icon {
                 id: "form-indicator",
-                class: "hidden xl:flex text-stone-300 font-bold animate-spin htmx-indicator",
+                class: "hidden lg:flex text-stone-300 font-bold animate-spin htmx-indicator",
 
                 "progress_activity"
             }
@@ -112,7 +112,7 @@ fn right_block() -> Element {
         title: "История",
         class: "flex flex-col gap-3 overflow-y-auto rounded-md",
         buttons: rsx!(a {
-            class: "hidden xl:flex text-stone-500 h-0 hover:text-blue-500",
+            class: "hidden lg:flex text-stone-500 h-0 hover:text-blue-500",
             download: "employees.yml",
             href: "/employees/raw",
 
